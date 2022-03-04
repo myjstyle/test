@@ -1,18 +1,36 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p>left孩子传过来的值:{{ numleft }}</p>
+    <hr />
+    <left :leftdata="num" @getleftnum="getnum"></left>
+    <right></right>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import left from '@/components/left'
+import right from '@/components/right'
+import bus from '@/bus/bus'
 export default {
-  name: 'Home',
   components: {
-    HelloWorld
-  }
+    left,
+    right,
+  },
+  data: function () {
+    return {
+      num: 'aaaaa',
+      numleft: '',
+    }
+  },
+  methods: {
+    getnum(val) {
+      this.numleft = val
+    },
+  },
+  created() {
+    bus.$on('getson', (val) => {
+      this.numleft = val
+    })
+  },
 }
 </script>
